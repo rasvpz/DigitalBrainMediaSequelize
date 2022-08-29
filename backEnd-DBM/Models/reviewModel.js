@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         description: {
             type: DataTypes.TEXT
-        }
+        },
     })
 
     return Review

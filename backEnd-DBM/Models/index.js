@@ -1,5 +1,4 @@
 const dbConfig = require('../Confiq/DbConfig.js');
-
 const {Sequelize, DataTypes} = require('sequelize');
 
 const sequelize = new Sequelize(
@@ -15,7 +14,6 @@ const sequelize = new Sequelize(
             min: dbConfig.pool.min,
             acquire: dbConfig.pool.acquire,
             idle: dbConfig.pool.idle
-
         }
     }
 )
@@ -38,22 +36,20 @@ db.reviews = require('./reviewModel.js')(sequelize, DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {
-    console.log('DB Connected Successfully')
-})
+    console.log('DB Connected Successfully')})
 
 
 
 // 1 to Many Relation
+db.products.hasMany(db.reviews, {
+    foreignKey: 'product_id',
+    as: 'review'
+})
 
-// db.products.hasMany(db.reviews, {
-//     foreignKey: 'product_id',
-//     as: 'review'
-// })
-
-// db.reviews.belongsTo(db.products, {
-//     foreignKey: 'product_id',
-//     as: 'product'
-// })
+db.reviews.belongsTo(db.products, {
+    foreignKey: 'product_id',
+    as: 'product'
+})
 
 
 
