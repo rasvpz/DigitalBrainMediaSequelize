@@ -6,16 +6,16 @@ const router = require('express').Router()
 // use routers
 router.post('/addProduct', productController.addProduct)
 router.get('/allProducts', productController.getAllProducts)
-router.get('/published', productController.getPublishedProduct)
-
+router.get('/published', productController.getPublishedProduct)   
+router.get('/products/:id', productController.getOneProduct)
 // Review Url and Controller
-router.post('/addReview', reviewController.addReview)
+router.post('/addReview/:id', reviewController.addReview)
 router.get('/allReviews', reviewController.getAllReviews)
 router.get('/getProductReviews/:id', productController.getProductReviews)
 
 router.get('/:id', productController.getOneProduct)
 router.put('/:id', productController.updateProduct)
-router.delete('/:id', productController.deleteProduct)
+router.delete('products/:id', productController.deleteProduct)
 // Review Url and Controller
 
 
