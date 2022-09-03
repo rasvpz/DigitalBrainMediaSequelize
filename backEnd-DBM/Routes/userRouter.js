@@ -5,7 +5,7 @@ const router = require('express').Router()
 // use routers
 router.post('/addUser', userController.addUser)
 router.get('/getallUsers', userController.getAllUser)
-router.get('/:email', userController.getOneUser)
+router.post('/login', userController.getOneUser)
 
 // Review Url and Controller
 

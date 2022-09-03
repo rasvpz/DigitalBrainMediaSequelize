@@ -1,5 +1,6 @@
 const db = require('../Models')
-const { genSaltSync, hashSync} = require("bcrypt")
+const { genSaltSync, hashSync, compareSync} = require("bcrypt")
+const { sign } = require('jsonwebtoken')
 // model
 const User = db.users
 // functions
@@ -34,10 +35,28 @@ const getAllUser = async (req, res) => {
 // 3. get one user
 
 const getOneUser = async (req, res) => {
-    let email = req.params.email
+    let email = req.body.email
+    let password = req.body.password
     let logedUser = await User.findOne({ where: { email: email }})
-    res.status(200).send(logedUser)
-
+    if(logedUser) {
+        const result = compareSync(password, logedUser.password)
+        if(result){
+            const jsonwebtoken = sign({ result:result.password}, 'dbm123', {
+                expiresIn: '1hr'
+            })
+            return res.json({
+                success:1,
+                messegae: logedUser,
+                token:jsonwebtoken,
+            })
+             
+            }else{
+                res.status(404).send('Password not match user')
+            }
+        }
+        else{
+            res.status(404).send('User name not match user')
+        }
 }
 
 module.exports = {
